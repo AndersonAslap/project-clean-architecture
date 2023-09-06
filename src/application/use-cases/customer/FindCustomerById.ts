@@ -1,13 +1,12 @@
-import { CustomerRepository } from "../../../domain/customer/repository/CustomerRepository";
-import { RepositoryFactory } from "../../factory/RepositoryFactory";
+import { CustomerRepositoryInterface } from "../../../domain/customer/repository/CustomerRepository";
 import { UseCase } from "../../factory/UseCase";
 
 export class FindCustomerById implements UseCase {
 
-    private customerRepository: CustomerRepository
+    private customerRepository: CustomerRepositoryInterface
 
-    constructor(repositoryFactory: RepositoryFactory){
-        this.customerRepository = repositoryFactory.createCustomerRepository()
+    constructor(customerRepository: CustomerRepositoryInterface) {
+        this.customerRepository = customerRepository
     }
 
     async execute(input: Input): Promise<Output> {
@@ -31,12 +30,12 @@ type Input = {
 }
 
 type Output = {
-    id: string 
-    name: string 
+    id: string
+    name: string
     address: {
-        street: string 
+        street: string
         state: string
         number: number
         zip: string
-    }   
+    }
 }
