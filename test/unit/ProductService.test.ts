@@ -4,7 +4,7 @@ import { ProductService } from '../../src/domain/product/service/ProductService'
 
 describe("Product service unit tests", () => {
 
-    it("should cange the prices of all products increase", () => {
+    it("should change the prices of all products increase", () => {
         const products: Product[] = [
             new Product(randomUUID(), 'Product 1', 10),
             new Product(randomUUID(), 'Product 2', 15),
@@ -16,7 +16,7 @@ describe("Product service unit tests", () => {
         expect(products[2]._price).toBe(40)
     })
 
-    it("should cange the prices of all products decrease", () => {
+    it("should change the prices of all products decrease", () => {
         const products: Product[] = [
             new Product(randomUUID(), 'Product 1', 10),
             new Product(randomUUID(), 'Product 2', 15),

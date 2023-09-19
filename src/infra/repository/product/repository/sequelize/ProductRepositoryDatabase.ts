@@ -1,5 +1,5 @@
-import { Product } from "../../../../domain/product/entity/Product";
-import ProductRepository from "../../../../domain/product/repository/ProductRepository";
+import { Product } from "../../../../../domain/product/entity/Product";
+import ProductRepository from "../../../../../domain/product/repository/ProductRepository";
 import { ProductModel } from "../../database/sequelize/model/ProductModel";
 
 export class ProductRepositoryDatabase implements ProductRepository {
@@ -27,6 +27,7 @@ export class ProductRepositoryDatabase implements ProductRepository {
 
     async find(id: string): Promise<Product> {
         const productData = await ProductModel.findOne({ where: { id } })
+        if (!productData) throw new Error('Product not found')
         return new Product(productData.id,productData.name,productData.price)
     }
 

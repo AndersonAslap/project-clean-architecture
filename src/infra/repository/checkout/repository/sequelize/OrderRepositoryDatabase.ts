@@ -1,6 +1,7 @@
-import { Item } from "../../../../domain/checkout/entity/Item";
-import { Order } from "../../../../domain/checkout/entity/Order";
-import { OrderRepository } from "../../../../domain/checkout/repository/OrderRepository";
+
+import { Item } from "../../../../../domain/checkout/entity/Item";
+import { Order } from "../../../../../domain/checkout/entity/Order";
+import { OrderRepository } from "../../../../../domain/checkout/repository/OrderRepository";
 import { ItemModel } from "../../database/sequelize/model/ItemModel";
 import { OrderModel } from "../../database/sequelize/model/OrderModel";
 

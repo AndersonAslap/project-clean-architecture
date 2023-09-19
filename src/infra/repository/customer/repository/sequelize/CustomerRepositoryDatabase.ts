@@ -1,19 +1,23 @@
-import { Customer } from "../../../../domain/customer/entity/Customer";
-import { CustomerRepository } from "../../../../domain/customer/repository/CustomerRepository";
-import { Address } from "../../../../domain/customer/value-object/Address";
+import { Customer } from "../../../../../domain/customer/entity/Customer";
+import { CustomerRepository } from "../../../../../domain/customer/repository/CustomerRepository";
+import { Address } from "../../../../../domain/customer/value-object/Address";
 import { CustomerModel } from "../../database/sequelize/model/CustomerModel";
 
 export class CustomerRepositoryDatabase implements CustomerRepository {
 
     async save(entity: Customer): Promise<void> {
-        await CustomerModel.create({
-            id: entity._id,
-            name: entity._name,
-            street: entity._address?.street || null,
-            state: entity._address?.state || null,
-            number: entity._address?.number || null,
-            zipcode: entity._address?.zipcode || null
-        });
+        try {
+            await CustomerModel.create({
+                id: entity._id,
+                name: entity._name,
+                street: entity._address?.street || null,
+                state: entity._address?.state || null,
+                number: entity._address?.number || null,
+                zipcode: entity._address?.zipcode || null
+            });
+        } catch(error: any) {
+            throw new Error('Não foi possível salvar o usuário')
+        }
     }
 
     async update(entity: Customer): Promise<void> {
@@ -46,6 +50,13 @@ export class CustomerRepositoryDatabase implements CustomerRepository {
 
     async findAll(): Promise<Customer[]> {
         const customerData = await CustomerModel.findAll()
-        return customerData.map((customer) => new Customer(customer.id, customer.name))
+        return customerData.map((customer) => {
+            const customer_ = new Customer(customer.id, customer.name)
+            if (customer.street) {
+                const address = new Address(customer.street, customer.number, customer.zipcode, customer.state)
+                customer_.changeAddress(address)
+            }
+            return customer_
+        })
     }
 }

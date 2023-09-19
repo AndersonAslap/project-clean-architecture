@@ -1,9 +1,14 @@
+import { NotificationError } from "../../@shared/notification/NotificationError"
+import { EntityResources } from "../../@shared/resources/EntityResources"
+import { ValidatorProductFactory } from "../factory/ValidatorFactory"
 import { ProductInterface } from "./ProductInterface"
 
-export class Product implements ProductInterface{
+export class Product extends EntityResources implements ProductInterface {
 
     constructor(readonly id: string, private name: string, private price: number) {
+        super()
         this.validated()
+        if (this.notification.hasErrors()) throw new NotificationError(this.notification.allErrors())
     }
 
     get _id(): string {
@@ -21,16 +26,16 @@ export class Product implements ProductInterface{
     changeName(name: string) {
         this.name = name
         this.validated()
+        if (this.notification.hasErrors()) throw new NotificationError(this.notification.allErrors())
     }
 
     changePrice(price: number) {
         this.price = price
         this.validated()
+        if (this.notification.hasErrors()) throw new NotificationError(this.notification.allErrors())
     }
 
     validated() {
-        if(!this.id) throw new Error("Id is required")
-        if(!this.name) throw new Error("Name is required")
-        if(this.price < 0) throw new Error("Price is invalid")
+        ValidatorProductFactory.create().validate(this)
     }
 }

@@ -1,12 +1,12 @@
 import { Sequelize } from "sequelize-typescript"
-import { CustomerModel } from '../../../src/infra/customer/database/sequelize/model/CustomerModel'
 import { RepositoryFactory } from "../../../src/application/factory/RepositoryFactory"
-import { RepositoryDatabaseFactory } from "../../../src/infra/factory/repository/RepositoryDatabaseFactory"
+import { RepositoryDatabaseFactory } from "../../../src/infra/factory/RepositoryDatabaseFactory"
 import { FindCustomerById } from "../../../src/application/use-cases/customer/FindCustomerById"
 import { Customer } from "../../../src/domain/customer/entity/Customer"
 import { randomUUID } from "crypto"
-import { CustomerRepositoryDatabase } from "../../../src/infra/customer/repository/sequelize/CustomerRepositoryDatabase"
 import { Address } from "../../../src/domain/customer/value-object/Address"
+import { CustomerModel } from "../../../src/infra/repository/customer/database/sequelize/model/CustomerModel"
+import { CustomerRepositoryDatabase } from "../../../src/infra/repository/customer/repository/sequelize/CustomerRepositoryDatabase"
 
 let sequelize: Sequelize
 let repositoryFactory: RepositoryFactory

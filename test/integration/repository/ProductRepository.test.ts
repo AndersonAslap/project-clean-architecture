@@ -1,9 +1,9 @@
 import { randomUUID } from 'crypto'
 import { Sequelize } from "sequelize-typescript"
-import { ProductModel } from "../../../src/infra/product/database/sequelize/model/ProductModel"
 import ProductRepository from "../../../src/domain/product/repository/ProductRepository"
-import { ProductRepositoryDatabase } from "../../../src/infra/product/repository/sequelize/ProductRepositoryDatabase"
 import { Product } from "../../../src/domain/product/entity/Product"
+import { ProductModel } from '../../../src/infra/repository/product/database/sequelize/model/ProductModel'
+import { ProductRepositoryDatabase } from '../../../src/infra/repository/product/repository/sequelize/ProductRepositoryDatabase'
 
 let sequelize: Sequelize
 let productRepository: ProductRepository

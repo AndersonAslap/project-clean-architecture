@@ -1,15 +1,20 @@
+import { EntityResources } from "../../@shared/resources/EntityResources"
+import { NotificationError } from "../../@shared/notification/NotificationError"
 import { PublishedEventCustomerChangeAddressService } from "../services/PublishedEventCustomerChangeAddressService"
 import { Address } from "../value-object/Address"
+import { ValidatorCustomerFactory } from "../factory/ValidatorCustomerFactory"
 
-export class Customer {
+export class Customer extends EntityResources {
     private address!: Address
     private active: boolean
     private rewardPoints: number
 
     constructor(readonly id: string, private name: string) {
+        super()
         this.rewardPoints = 0
         this.active = false
         this.validate()
+        if (this.notification.hasErrors()) throw new NotificationError(this.notification.allErrors())
     }
 
     get _id(): string {
@@ -36,6 +41,7 @@ export class Customer {
     changeName(name: string) {
         this.name = name 
         this.validate()
+        if (this.notification.hasErrors()) throw new NotificationError(this.notification.allErrors())
     }
 
     activate() {
@@ -62,7 +68,6 @@ export class Customer {
     }
 
     validate() {
-        if (!this.id) throw new Error("Id is required") 
-        if (!this.name) throw new Error("Name is required")
+        ValidatorCustomerFactory.create().validate(this)
     }
 }

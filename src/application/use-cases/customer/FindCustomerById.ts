@@ -1,6 +1,6 @@
 import { CustomerRepository } from "../../../domain/customer/repository/CustomerRepository";
 import { RepositoryFactory } from "../../factory/RepositoryFactory";
-import { UseCase } from "../../factory/UseCase";
+import { UseCase } from "../UseCase";
 
 export class FindCustomerById implements UseCase {
 

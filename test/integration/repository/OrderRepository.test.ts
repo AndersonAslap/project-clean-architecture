@@ -4,16 +4,16 @@ import { Customer } from "../../../src/domain/customer/entity/Customer"
 import { Product } from "../../../src/domain/product/entity/Product"
 import { CustomerRepository } from '../../../src/domain/customer/repository/CustomerRepository'
 import ProductRepository from '../../../src/domain/product/repository/ProductRepository'
-import { CustomerRepositoryDatabase } from '../../../src/infra/customer/repository/sequelize/CustomerRepositoryDatabase'
-import { ProductRepositoryDatabase } from '../../../src/infra/product/repository/sequelize/ProductRepositoryDatabase'
 import { Order } from '../../../src/domain/checkout/entity/Order'
 import { Item } from '../../../src/domain/checkout/entity/Item'
-import { ProductModel } from '../../../src/infra/product/database/sequelize/model/ProductModel'
-import { CustomerModel } from '../../../src/infra/customer/database/sequelize/model/CustomerModel'
 import { OrderRepository } from '../../../src/domain/checkout/repository/OrderRepository'
-import { ItemModel } from '../../../src/infra/checkout/database/sequelize/model/ItemModel'
-import { OrderRepositoryDatabase } from '../../../src/infra/checkout/repository/sequelize/OrderRepositoryDatabase'
-import { OrderModel } from '../../../src/infra/checkout/database/sequelize/model/OrderModel'
+import { ProductModel } from '../../../src/infra/repository/product/database/sequelize/model/ProductModel'
+import { CustomerModel } from '../../../src/infra/repository/customer/database/sequelize/model/CustomerModel'
+import { ItemModel } from '../../../src/infra/repository/checkout/database/sequelize/model/ItemModel'
+import { OrderModel } from '../../../src/infra/repository/checkout/database/sequelize/model/OrderModel'
+import { CustomerRepositoryDatabase } from '../../../src/infra/repository/customer/repository/sequelize/CustomerRepositoryDatabase'
+import { ProductRepositoryDatabase } from '../../../src/infra/repository/product/repository/sequelize/ProductRepositoryDatabase'
+import { OrderRepositoryDatabase } from '../../../src/infra/repository/checkout/repository/sequelize/OrderRepositoryDatabase'
 
 let sequelize: Sequelize
 let customer: Customer

@@ -2,14 +2,17 @@ import { randomUUID } from 'crypto'
 import { Sequelize } from "sequelize-typescript"
 import { Customer } from '../../../src/domain/customer/entity/Customer'
 import { CustomerRepository } from '../../../src/domain/customer/repository/CustomerRepository'
-import { CustomerModel } from '../../../src/infra/customer/database/sequelize/model/CustomerModel'
-import { CustomerRepositoryDatabase } from '../../../src/infra/customer/repository/sequelize/CustomerRepositoryDatabase'
-import { CreatedCustomer } from '../../../src/application/use-cases/customer/CreatedCustomer'
+import { CreateCustomer } from '../../../src/application/use-cases/customer/CreateCustomer'
 import { Log1Handler } from '../../../src/domain/customer/event/handler/Log1Handler'
 import { Log2Handler } from '../../../src/domain/customer/event/handler/Log2Handler'
+import { CustomerModel } from '../../../src/infra/repository/customer/database/sequelize/model/CustomerModel'
+import { CustomerRepositoryDatabase } from '../../../src/infra/repository/customer/repository/sequelize/CustomerRepositoryDatabase'
+import { RepositoryFactory } from '../../../src/application/factory/RepositoryFactory'
+import { RepositoryDatabaseFactory } from '../../../src/infra/factory/RepositoryDatabaseFactory'
 
 let sequelize: Sequelize
 let customerRepository: CustomerRepository
+let repositoryFactory: RepositoryFactory
 
 describe("Customer repository unit tests", () => {
 
@@ -23,6 +26,7 @@ describe("Customer repository unit tests", () => {
         sequelize.addModels([CustomerModel])
         await sequelize.sync()
         customerRepository = new CustomerRepositoryDatabase()
+        repositoryFactory = new  RepositoryDatabaseFactory()
     })
 
     afterEach(async () => {
@@ -34,7 +38,7 @@ describe("Customer repository unit tests", () => {
             id: randomUUID(),
             name: "Anderson"
         }
-        const createdCustomer = new CreatedCustomer(customerRepository)
+        const createdCustomer = new CreateCustomer(repositoryFactory)
         createdCustomer.execute(input)
         const customerModel = await CustomerModel.findOne({ where : { id: input.id } })
         expect(customerModel.toJSON()).toStrictEqual({
@@ -81,15 +85,15 @@ describe("Customer repository unit tests", () => {
         expect(customers.sort()).toEqual([customer1, customer2].sort())
     })
 
-    it("should create a user and published event", () => {
+    it("should create a user and published event", async () => {
         const spyEventHandler1 = jest.spyOn(Log1Handler.prototype, "handle");
         const spyEventHandler2 = jest.spyOn(Log2Handler.prototype, "handle");
         const input  = {
             id: randomUUID(),
             name: "Anderson Adolfo"
         }
-        const createdCustomer = new CreatedCustomer(customerRepository)
-        createdCustomer.execute(input)
+        const createdCustomer = new CreateCustomer(repositoryFactory)
+        await createdCustomer.execute(input)
         expect(spyEventHandler1).toBeCalled()
         expect(spyEventHandler2).toBeCalled()
     })

@@ -2,10 +2,10 @@ import { Address } from "../../../domain/customer/value-object/Address";
 import { Customer } from "../../../domain/customer/entity/Customer";
 import { CustomerRepository } from "../../../domain/customer/repository/CustomerRepository";
 import { PublishedEventCustomerCreatedService } from "../../../domain/customer/services/PublishedEventCustomerCreatedService";
-import { UseCase } from "../../factory/UseCase";
+import { UseCase } from "../UseCase";
 import { RepositoryFactory } from "../../factory/RepositoryFactory";
 
-export class CreatedCustomer implements UseCase {
+export class CreateCustomer implements UseCase {
 
     private customerRepository: CustomerRepository
 
