@@ -45,4 +45,10 @@ describe("Product unit tests", () => {
             product.changePrice(-20)
         }).toThrowError("product: Price should be able >= 0")
     })
+
+    it("should throw error when name and price are incorrect", () => {
+        expect(() => {
+            new Product(randomUUID(), "", -1)
+        }).toThrow("product: Name is required,product: Price should be able >= 0")
+    })
 })

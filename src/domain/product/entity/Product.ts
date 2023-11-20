@@ -1,6 +1,5 @@
 import { NotificationError } from "../../@shared/notification/NotificationError"
 import { EntityResources } from "../../@shared/resources/EntityResources"
-import { ValidatorProductFactory } from "../factory/ValidatorFactory"
 import { ProductInterface } from "./ProductInterface"
 
 export class Product extends EntityResources implements ProductInterface {
@@ -35,7 +34,18 @@ export class Product extends EntityResources implements ProductInterface {
         if (this.notification.hasErrors()) throw new NotificationError(this.notification.allErrors())
     }
 
+    private addError(message: string) {
+        this.notification.addError({
+            context: "product",
+            message: message
+        });
+    }
+
     validated() {
-        ValidatorProductFactory.create().validate(this)
+        if (!this.id) this.addError("Id is required");
+        if (!this.name) this.addError("Name is required");
+        if (!this.id) this.addError("Id is required");
+        if (this.price === undefined) this.addError("Price is required");
+        if (this.price && this.price < 0) this.addError("Price should be able >= 0");
     }
 }
